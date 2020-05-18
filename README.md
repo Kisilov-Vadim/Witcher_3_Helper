@@ -2,11 +2,15 @@
 
 Used technologies:
 
-### Node
-### PostGreSQL
-### GraphQl
-### React
-### Jest Enzyme
+### `Node`
+### `PostGreSQL`
+### `GraphQl`
+### `React`
+### `Jest Enzyme`
+
+
+
+
 
 In the project directory, you can run:
 
