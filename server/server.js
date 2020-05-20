@@ -6,12 +6,10 @@ import bodyParser from 'body-parser';
 import fileupload from 'express-fileupload'
 
 //graphQL
-import graphqlHTTP from 'express-graphql';
-import { buildSchema } from 'graphql';
-const { ApolloServer, gql } = require('apollo-server');
+import { ApolloServer } from 'apollo-server';
 
 //schema
-import schema from './schema/schema.js';
+import {typeDefs, resolvers} from './schema/schema.js';
 
 let app = express();
 let PORT = 4000;
@@ -21,10 +19,10 @@ app.use(bodyParser.json());
 app.use(fileupload());
 app.use(express.static(path.join(__dirname, '..', 'build')));
 
-app.use('/graphql', graphqlHTTP({
-  schema,
-  graphiql: true
-}))
+const server = new ApolloServer({ 
+  typeDefs, 
+  resolvers 
+});
 
 app.get("*", (req, res) => {
     fs.readFile('build/index.html', 'utf-8', (err, data) => {
@@ -34,9 +32,22 @@ app.get("*", (req, res) => {
       }
       res.status(200).send(data)
     })
-    // res.sendFile('index.html', { root });
 })
 
-app.listen(PORT, function () {
+app.post('/admin/api/send-photo', (req, res) => {
+  let file = req.files.file; 
+  file.mv(`./build/images/components/${req.body.name}`, (err) => {
+    if(err) {
+      console.log(err)
+    }
+    res.send({status: 'ok'})
+  })
+})
+
+server.listen(4001).then(({ url }) => {
+  console.log(`🚀  Server ready at ${url}`);
+});
+
+app.listen(4000, function () {
   console.log(`Example app listening on port ${PORT}!`);
 });

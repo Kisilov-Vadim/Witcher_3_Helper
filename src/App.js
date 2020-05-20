@@ -5,21 +5,18 @@ import {Switch, Route, Link} from 'react-router-dom';
 //import Graphql utilits
 import ApolloClient from 'apollo-boost';
 import {ApolloProvider} from 'react-apollo';
-import { createUploadLink } from 'apollo-upload-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 
 //import Components
 import AddNewComponent from './components/AddNewConponent/AddNewComponent'; 
 import ShowAllComponents from './components/ShowAllComponents/ShowAllComponents';
 
-
-// const link = createUploadLink({
-//   uri: 'http://localhost:4000/graphql',
-//   credentials: "include"
-// })
+const cache = new InMemoryCache();
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4001/graphql'
-})
+  uri: 'http://localhost:4001/graphql',
+  cache
+});
 
 function App() {
 

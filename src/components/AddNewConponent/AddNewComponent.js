@@ -8,24 +8,14 @@ import { useMutation } from '@apollo/react-hooks';
 //queries and mutations
 import {addComponentMutation, getComponentsQuery} from '../../queries/queries';
 
-//import React components
-
-
-
-// const sendPhoto = async (data) => {
-//   const formData = new FormData(); 
-//   formData.append('file', data);
-//   let response = await fetch('http://localhost:4000/api/send-photo', {
-//     method: 'POST',
-//     body: formData
-//   })
-//   return response.json()
-// }
+//utilits 
+import {createPhotoName, sendPhoto} from '../../modulesUtilits';
 
 export default function AddNewComponent() {
   const [name, setName] = useState(''); 
   const [name_en, setName_en] = useState('')
-  const [price, setPrice] = useState(''); 
+  const [purchase, setPurchase] = useState(''); 
+  const [sale, setSale] = useState('');
   const [weight, setWeight] = useState(''); 
   const [location, setLocation] = useState(''); 
   const [location_en, setLocation_en] = useState('');
@@ -35,30 +25,38 @@ export default function AddNewComponent() {
   const [addComponent] = useMutation(addComponentMutation);
 
   const getResponse = (res) => {
-    if (res === null) {
-      setMessage({ message: `Компонент ${name} уже есть в базе`, status: 'error'});
+    if (res.id === null) {
+      setMessage({ message: `Компонент ${res.name} уже есть в базе`, status: 'error'});
     } else {
+      sendPhoto(image, createPhotoName(name_en)).then(res => console.log(res))
       setMessage({ message: `Компонент ${name} успешно добавлен в базу`, status: 'success'});
     }
     setTimeout(() => {
       setMessage({status: null, message: ''})
     }, 5000)
     setName('');
-    setPrice('');
+    setName_en('')
+    setPurchase('');
+    setSale('');
     setWeight('');
     setLocation('');
+    setLocation_en('')
+    setImage('')
   }
 
   const handleDataPost = (e) => {
     e.preventDefault();
     addComponent({
       variables: {
-        name, price, weight, location, image
+        name, name_en, purchase, sale, weight, location, location_en, 
+        image: `/images/components/${createPhotoName(name_en)}`
       }, 
-      refetchQueries: [{ query: getComponentsQuery }]
-    }).then(res => {
-      getResponse(res.data.addComponent)
-    });
+      refetchQueries: [{ query: getComponentsQuery, variables: {lang: 'ru'} }]
+    })
+      .then(res => {
+        getResponse(res.data.addComponent)
+      })
+      .catch(err => console.error(err))
   }
 
   return (
@@ -86,14 +84,25 @@ export default function AddNewComponent() {
           />
         </Form.Field>
         <Form.Field>
-          <label>Цена</label>
+          <label>Цена покупки</label>
           <input 
             type="number" 
             placeholder='Цена компонента' 
-            name="price" 
-            value={price}
+            name="purchase" 
+            value={purchase}
             required={true}
-            onChange={(e) => setPrice(+e.target.value)}
+            onChange={(e) => setPurchase(+e.target.value)}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Цена продажи</label>
+          <input 
+            type="number" 
+            placeholder='Цена компонента' 
+            name="sale" 
+            value={sale}
+            required={true}
+            onChange={(e) => setSale(+e.target.value)}
           />
         </Form.Field>
         <Form.Field>
