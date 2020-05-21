@@ -1,0 +1,15 @@
+.select-language {
+  
+  &__lang {
+    color: #000;
+    margin: 0 5px;
+    font-weight: bold;
+    font-size: 20px;
+    font-family: DMMono, Arial, Helvetica, sans-serif;
+  }
+
+  .nonactive {
+    cursor: pointer;
+    color: white;
+  }
+}

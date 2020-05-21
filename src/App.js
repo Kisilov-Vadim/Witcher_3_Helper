@@ -8,8 +8,10 @@ import {ApolloProvider} from 'react-apollo';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 //import Components
-import AddNewComponent from './components/AddNewConponent/AddNewComponent'; 
-import ShowAllComponents from './components/ShowAllComponents/ShowAllComponents';
+import {AddNewComponent} from './components/AddNewConponent/index'; 
+import {Main} from './pages/Main/index';
+import {AllComponents} from './pages/AllComponents/index';
+import {Header} from './components/Header/index';
 
 const cache = new InMemoryCache();
 
@@ -22,15 +24,23 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
+      <Header />
       <Switch>
+        <Route exact={true} path='/'>
+          <Main />
+        </Route>
+        <Route exact={true} path='/components'>
+          <AllComponents />
+        </Route>
         <Route exact={true} path="/admin/add-new-component">
           <div style={{ display: 'flex' }}>
             <AddNewComponent />
-            <ShowAllComponents />
           </div>
         </Route>
         <Route exact={true} path="/admin">
-          <Link to="/admin/add-new-component">Добавить новый компонент</Link>
+          <div className="wrapper" style={{marginTop: '20px', fontSize: '24px'}}>
+            <Link to="/admin/add-new-component">Добавить новый компонент</Link>
+          </div>
         </Route>
       </Switch>
     </ApolloProvider>

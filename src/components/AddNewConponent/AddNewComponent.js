@@ -11,7 +11,7 @@ import {addComponentMutation, getComponentsQuery} from '../../queries/queries';
 //utilits 
 import {createPhotoName, sendPhoto} from '../../modulesUtilits';
 
-export default function AddNewComponent() {
+export default function AddNewComponent({language}) {
   const [name, setName] = useState(''); 
   const [name_en, setName_en] = useState('')
   const [purchase, setPurchase] = useState(''); 
@@ -51,7 +51,7 @@ export default function AddNewComponent() {
         name, name_en, purchase, sale, weight, location, location_en, 
         image: `/images/components/${createPhotoName(name_en)}`
       }, 
-      refetchQueries: [{ query: getComponentsQuery, variables: {lang: 'ru'} }]
+      refetchQueries: [{ query: getComponentsQuery, variables: {lang: language} }]
     })
       .then(res => {
         getResponse(res.data.addComponent)
@@ -64,9 +64,9 @@ export default function AddNewComponent() {
       <div className={`addNewComponent__submitInfo ${message.status === null ? null : message.status === 'success' ? 'addNewComponent__submitInfo-success' : 'addNewComponent__submitInfo-error'}`}>{message.message}</div>
       <Form onSubmit={handleDataPost}>
         <Form.Field>
-          <label>Название</label>
+          <label>{language === 'en' ? 'Name' : 'Название'}</label>
           <input 
-            placeholder='Название компонента' 
+            placeholder={language === 'en' ? 'Name' : 'Название компонента'}
             name='name' 
             value={name}
             required={true}
@@ -74,9 +74,9 @@ export default function AddNewComponent() {
           />
         </Form.Field>
         <Form.Field>
-          <label>Название на английском</label>
+          <label>{language === 'en' ? 'Name on english' : 'Название на английском'}</label>
           <input 
-            placeholder='Название компонента на английском' 
+            placeholder={language === 'en' ? 'Name on english' : 'Название на английском'} 
             name='name_en' 
             value={name_en}
             required={true}
@@ -84,10 +84,10 @@ export default function AddNewComponent() {
           />
         </Form.Field>
         <Form.Field>
-          <label>Цена покупки</label>
+          <label>{language === 'en' ? 'Purchase' : 'Цена покупки'}</label>
           <input 
             type="number" 
-            placeholder='Цена компонента' 
+            placeholder={language === 'en' ? 'Purchase' : 'Цена покупки'}
             name="purchase" 
             value={purchase}
             required={true}
@@ -95,10 +95,10 @@ export default function AddNewComponent() {
           />
         </Form.Field>
         <Form.Field>
-          <label>Цена продажи</label>
+          <label>{language === 'en' ? 'Sale' : 'Цена продажи'}</label>
           <input 
             type="number" 
-            placeholder='Цена компонента' 
+            placeholder={language === 'en' ? 'Sale' : 'Цена продажи'}
             name="sale" 
             value={sale}
             required={true}
@@ -106,10 +106,10 @@ export default function AddNewComponent() {
           />
         </Form.Field>
         <Form.Field>
-          <label>Вес</label>
+          <label>{language === 'en' ? 'Weight' : 'Вес'}</label>
           <input 
             type="number" 
-            placeholder='Вес компонента' 
+            placeholder={language === 'en' ? 'Weight' : 'Вес'}
             name="weight" 
             required={true}
             value={weight}
@@ -117,9 +117,9 @@ export default function AddNewComponent() {
           />
         </Form.Field>
         <Form.Field>
-          <label>Местоположение</label>
+          <label>{language === 'en' ? 'Location' : 'Местоположение'}</label>
           <input 
-            placeholder='Местоположение компонента' 
+            placeholder={language === 'en' ? 'Location' : 'Местоположение'}
             name="location" 
             required={true}
             value={location}
@@ -127,9 +127,9 @@ export default function AddNewComponent() {
           />
         </Form.Field>
         <Form.Field>
-          <label>Местоположение на английском</label>
+          <label>{language === 'en' ? 'Location on English' : 'Местоположение на английском'}</label>
           <input 
-            placeholder='Местоположение компонента' 
+            placeholder={language === 'en' ? 'Location on English' : 'Местоположение на английском'}
             name="location_en" 
             required={true}
             value={location_en}
@@ -137,7 +137,7 @@ export default function AddNewComponent() {
           />
         </Form.Field>
         <Form.Field>
-          <label>Изображение компонента</label>
+          <label>{language === 'en' ? 'Image' : 'Изображение'}</label>
           <input 
             type="file"
             name="image" 
@@ -145,7 +145,7 @@ export default function AddNewComponent() {
             onChange={(e) => setImage(e.target.files[0])}
           />
         </Form.Field>
-        <Button type='submit'>Отправить</Button>
+        <Button type='submit'>{language === 'en' ? 'Send' : 'Отправить'}</Button>
       </Form>
     </div>
   )
