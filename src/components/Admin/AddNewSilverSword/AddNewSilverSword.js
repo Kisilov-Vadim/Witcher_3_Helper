@@ -1,17 +1,10 @@
-import React, {useState} from 'react'
-import './styles.scss';
+import React, {useState} from 'react';
+import './AddNewSilverSword.scss';
 import {Button, Form} from 'semantic-ui-react';
 
-//apollo utilits 
-import { useMutation } from '@apollo/react-hooks';
 
-//queries and mutations
-import {addComponentMutation, getComponentsQuery} from '../../queries/queries';
 
-//utilits 
-import {createPhotoName, sendPhoto} from '../../modulesUtilits';
-
-export default function AddNewComponent({language}) {
+export default function AddNewSilverSword({language}) {
   const [name, setName] = useState(''); 
   const [name_en, setName_en] = useState('')
   const [purchase, setPurchase] = useState(''); 
@@ -22,47 +15,13 @@ export default function AddNewComponent({language}) {
   const [image, setImage] = useState(null)
   const [message, setMessage] = useState({status: null, message: ''}); 
 
-  const [addComponent] = useMutation(addComponentMutation);
-
-  const getResponse = (res) => {
-    if (res.id === null) {
-      setMessage({ message: `Компонент ${res.name} уже есть в базе`, status: 'error'});
-    } else {
-      sendPhoto(image, createPhotoName(name_en)).then(res => console.log(res))
-      setMessage({ message: `Компонент ${name} успешно добавлен в базу`, status: 'success'});
-    }
-    setTimeout(() => {
-      setMessage({status: null, message: ''})
-    }, 5000)
-    setName('');
-    setName_en('')
-    setPurchase('');
-    setSale('');
-    setWeight('');
-    setLocation('');
-    setLocation_en('')
-    setImage('')
-  }
-
   const handleDataPost = (e) => {
     e.preventDefault();
-    addComponent({
-      variables: {
-        name, name_en, purchase, sale, weight, location, location_en, 
-        image: `/images/components/${createPhotoName(name_en)}`
-      }, 
-      refetchQueries: [{ query: getComponentsQuery, variables: {lang: language} }]
-    })
-      .then(res => {
-        getResponse(res.data.addComponent)
-      })
-      .catch(err => console.error(err))
   }
 
   return (
-    <div className="addNewComponent">
-      <div className={`addNewComponent__submitInfo ${message.status === null ? null : message.status === 'success' ? 'addNewComponent__submitInfo-success' : 'addNewComponent__submitInfo-error'}`}>{message.message}</div>
-      <Form onSubmit={handleDataPost}>
+    <div className="addNewItem wrapper">
+      <Form onSubmit={handleDataPost} className="addNewItem__form">
         <Form.Field>
           <label>{language === 'en' ? 'Name' : 'Название'}</label>
           <input 
@@ -70,7 +29,7 @@ export default function AddNewComponent({language}) {
             name='name' 
             value={name}
             required={true}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value.trim())}
           />
         </Form.Field>
         <Form.Field>
@@ -80,7 +39,7 @@ export default function AddNewComponent({language}) {
             name='name_en' 
             value={name_en}
             required={true}
-            onChange={(e) => setName_en(e.target.value)}
+            onChange={(e) => setName_en(e.target.value.trim())}
           />
         </Form.Field>
         <Form.Field>
@@ -123,7 +82,7 @@ export default function AddNewComponent({language}) {
             name="location" 
             required={true}
             value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            onChange={(e) => setLocation(e.target.value.trim())}
           />
         </Form.Field>
         <Form.Field>
@@ -133,7 +92,7 @@ export default function AddNewComponent({language}) {
             name="location_en" 
             required={true}
             value={location_en}
-            onChange={(e) => setLocation_en(e.target.value)}
+            onChange={(e) => setLocation_en(e.target.value.trim())}
           />
         </Form.Field>
         <Form.Field>
@@ -147,6 +106,9 @@ export default function AddNewComponent({language}) {
         </Form.Field>
         <Button type='submit'>{language === 'en' ? 'Send' : 'Отправить'}</Button>
       </Form>
+      <div className="addNewItem__status">
+        <div className={`addNewItem__submitInfo ${message.status === null ? null : message.status === 'success' ? 'addNewItem__submitInfo-success' : 'addNewItem__submitInfo-error'}`}>{message.message}</div>
+      </div>
     </div>
   )
 }

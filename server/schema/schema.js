@@ -27,7 +27,7 @@ export const resolvers = {
     components: (parent, args) => {
       return db.query(`select * from components${args.lang === 'en' ? '_en' : ''}`).then(res => {
         let components = res.map(item => {
-          let newImage = `http://localhost:4000/${item.image}`;
+          let newImage = `${item.image}`;
           item.image = newImage; 
           return item;
         });

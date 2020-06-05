@@ -1,23 +1,21 @@
 import React from 'react';
 import './App.scss';
-import {Switch, Route, Link} from 'react-router-dom';
+import {Switch, Route} from 'react-router-dom';
 
 //import Graphql utilits
 import ApolloClient from 'apollo-boost';
 import {ApolloProvider} from 'react-apollo';
-import { InMemoryCache } from 'apollo-cache-inmemory';
 
 //import Components
-import {AddNewComponent} from './components/AddNewConponent/index'; 
+import {AddNewComponent} from './components/Admin/AddNewConponent/index'; 
+import {AddNewSilverSword} from './components/Admin/AddNewSilverSword/index';
 import {Main} from './pages/Main/index';
 import {AllComponents} from './pages/AllComponents/index';
 import {Header} from './components/Header/index';
-
-const cache = new InMemoryCache();
+import Admin from './components/Admin/Admin';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4001/graphql',
-  cache
 });
 
 function App() {
@@ -33,14 +31,13 @@ function App() {
           <AllComponents />
         </Route>
         <Route exact={true} path="/admin/add-new-component">
-          <div style={{ display: 'flex' }}>
-            <AddNewComponent />
-          </div>
+          <AddNewComponent />
+        </Route>
+        <Route exact={true} path="/admin/add-new-silver-sword">
+          <AddNewSilverSword />
         </Route>
         <Route exact={true} path="/admin">
-          <div className="wrapper" style={{marginTop: '20px', fontSize: '24px'}}>
-            <Link to="/admin/add-new-component">Добавить новый компонент</Link>
-          </div>
+          <Admin />
         </Route>
       </Switch>
     </ApolloProvider>

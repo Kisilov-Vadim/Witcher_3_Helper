@@ -1,5 +1,6 @@
 import React from 'react'
 import './AllComponents.scss';
+import Preloader from '../../components/Preloader/Preloader';
 
 //semantic ui for react 
 import {Table} from 'semantic-ui-react';
@@ -14,7 +15,7 @@ export default function AllComponents({language}) {
   const {data, loading, error} = useQuery(getComponentsQuery, {variables: {lang: language}});
 
   if (loading) {
-    return(<div>Loading...</div>)
+    return(<Preloader />)
   } else if (error) {
     return(<div>Sorry, error...</div>)
   } else {

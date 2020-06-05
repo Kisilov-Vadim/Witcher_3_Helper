@@ -10,7 +10,7 @@
     height: 300px;
     border-radius: 10px;
     cursor: pointer;
-    background-image: url('http://localhost:4000/images/main/components.jpg');
+    background-image: url('/images/main/components.jpg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -39,7 +39,7 @@
   }
 
   .admin {
-    background-image: url('http://localhost:4000/images/main/admin.jpg');
+    background-image: url('/images/main/admin.jpg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;

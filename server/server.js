@@ -18,29 +18,30 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(fileupload());
 app.use(express.static(path.join(__dirname, '..', 'build')));
+app.use(express.static(__dirname))
 
 const server = new ApolloServer({ 
   typeDefs, 
   resolvers 
 });
 
-app.get("*", (req, res) => {
-    fs.readFile('build/index.html', 'utf-8', (err, data) => {
-      if (err) {
-        console.log(err)
-        res.status(404).send('Sorry, something went wrong...')
-      }
-      res.status(200).send(data)
-    })
-})
-
 app.post('/admin/api/send-photo', (req, res) => {
   let file = req.files.file; 
-  file.mv(`./build/images/components/${req.body.name}`, (err) => {
+  file.mv(`images/components/${req.body.name}`, (err) => {
     if(err) {
       console.log(err)
     }
     res.send({status: 'ok'})
+  })
+})
+
+app.get("*", (req, res) => {
+  fs.readFile('build/index.html', 'utf-8', (err, data) => {
+    if (err) {
+      console.log(err)
+      res.status(404).send('Sorry, something went wrong...')
+    }
+    res.status(200).send(data)
   })
 })
 
