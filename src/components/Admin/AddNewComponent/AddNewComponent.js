@@ -24,16 +24,18 @@ export default function AddNewComponent({language}) {
 
   const [addComponent] = useMutation(addComponentMutation);
 
-  const getResponse = (res) => {
-    if (res.id === null) {
-      setMessage({ message: `Компонент ${res.name} уже есть в базе`, status: 'error'});
-    } else {
-      sendPhoto(image, createPhotoName(name_en)).then(res => console.log(res))
-      setMessage({ message: `Компонент ${name} успешно добавлен в базу`, status: 'success'});
+  const getResponse = ({status, message}) => {
+    if (status) {
+      sendPhoto(image, createPhotoName(name_en), 'components')
+        .then(res => {
+          setMessage({status, message})
+        })
+        .catch(() => setMessage({status: false, message: `${message}, но возникли проблемы с добавлением фото`}))
     }
     setTimeout(() => {
       setMessage({status: null, message: ''})
-    }, 5000)
+    }, 10000)
+
     setName('');
     setName_en('')
     setPurchase('');
@@ -147,7 +149,7 @@ export default function AddNewComponent({language}) {
         <Button type='submit'>{language === 'en' ? 'Send' : 'Отправить'}</Button>
       </Form>
       <div className="addNewItem__status">
-        <div className={`addNewItem__submitInfo ${message.status === null ? null : message.status === 'success' ? 'addNewItem__submitInfo-success' : 'addNewItem__submitInfo-error'}`}>{message.message}</div>
+        <div className={`addNewItem__submitInfo ${message.status === null ? null : message.status === true ? 'addNewItem__submitInfo-success' : 'addNewItem__submitInfo-error'}`}>{message.message}</div>
       </div>
     </div>
   )

@@ -9,6 +9,9 @@ export default function Main({language}) {
       <Link to="/components" className='card'>
         <div className='title'>{language === 'en' ? 'Components' : 'Компонеты'}</div>
       </Link>
+      <Link to="/silver_swords" className='card'>
+        <div className='title'>{language === 'en' ? 'Silver Swords' : 'Серебренные мечи'}</div>
+      </Link>
       <Link to="/admin" className='card admin'>
         <div className='title'>{language === 'en' ? 'Admin' : 'Админ'}</div>
       </Link>

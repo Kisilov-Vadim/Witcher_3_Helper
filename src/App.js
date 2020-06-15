@@ -7,10 +7,11 @@ import ApolloClient from 'apollo-boost';
 import {ApolloProvider} from 'react-apollo';
 
 //import Components
-import {AddNewComponent} from './components/Admin/AddNewConponent/index'; 
+import {AddNewComponent} from './components/Admin/AddNewComponent/index'; 
 import {AddNewSilverSword} from './components/Admin/AddNewSilverSword/index';
 import {Main} from './pages/Main/index';
 import {AllComponents} from './pages/AllComponents/index';
+import {AllSilverSwords} from './pages/AllSilverSwords/index';
 import {Header} from './components/Header/index';
 import Admin from './components/Admin/Admin';
 
@@ -29,6 +30,9 @@ function App() {
         </Route>
         <Route exact={true} path='/components'>
           <AllComponents />
+        </Route>
+        <Route exact={true} path='/silver_swords'>
+          <AllSilverSwords />
         </Route>
         <Route exact={true} path="/admin/add-new-component">
           <AddNewComponent />

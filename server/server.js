@@ -27,7 +27,8 @@ const server = new ApolloServer({
 
 app.post('/admin/api/send-photo', (req, res) => {
   let file = req.files.file; 
-  file.mv(`images/components/${req.body.name}`, (err) => {
+  console.log(req.body.link)
+  file.mv(`${__dirname}/images/${req.body.link}/${req.body.name}`, (err) => {
     if(err) {
       console.log(err)
     }

@@ -2,8 +2,8 @@ import React from 'react'
 import {Form} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
-export default function Input({name, type, handleChange, value}) {
-
+const Input = ({name, type, handleChange, value}) => {
+  console.log(value)
   return (
     <Form.Field>
       <label>{name}</label>
@@ -23,9 +23,11 @@ Input.propTypes = {
   name: PropTypes.string.isRequired, 
   type: PropTypes.string, 
   handleChange: PropTypes.func.isRequired, 
-  value: PropTypes.string.isRequired
+  value: PropTypes.string
 }
 
 Input.defaultProps = {
   type: 'text'
 }
+
+export default React.memo(Input)

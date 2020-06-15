@@ -1,9 +1,10 @@
 //send photo to sever
-export const sendPhoto = async (data, name) => {
+export const sendPhoto = async (data, name, link) => {
   const formData = new FormData(); 
   formData.append('file', data);
   formData.append('name', name)
-  let response = await fetch('http://localhost:4000/admin/api/send-photo', {
+  formData.append('link', link); 
+  let response = await fetch(`http://localhost:4000/admin/api/send-photo`, {
     method: 'POST',
     body: formData
   })
