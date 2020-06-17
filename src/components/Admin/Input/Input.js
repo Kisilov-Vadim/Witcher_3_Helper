@@ -3,7 +3,7 @@ import {Form} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 const Input = ({name, type, handleChange, value}) => {
-  console.log(value)
+  
   return (
     <Form.Field>
       <label>{name}</label>

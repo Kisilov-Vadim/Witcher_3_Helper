@@ -1,7 +1,9 @@
 import { gql } from 'apollo-server';
 import db from '../DataBase/index';
-import { addComponentData } from '../DataBase/addComponent';
-import addSilverSword from '../DataBase/addSilverSword'; 
+
+import { addComponentData } from '../DataBase/addFuncUtilits/addComponent';
+import addSword from '../DataBase/addFuncUtilits/addSword'; 
+import allSilverSwords from '../DataBase/getFuncUtilits/allSilverSwords';
 
 export const typeDefs = gql`
   type Component {
@@ -14,7 +16,7 @@ export const typeDefs = gql`
     image: String!
   }
 
-  type SilverSword {
+  type Sword {
     id: ID!
     name: String!
     type: String!
@@ -67,7 +69,7 @@ export const typeDefs = gql`
 
   type Query {
     components(lang: String): [Component]
-    allSilverSwords(lang: String): [SilverSword]
+    allSilverSwords(lang: String): [Sword]
   }
 
   type Mutation {
@@ -76,8 +78,10 @@ export const typeDefs = gql`
       sale: Float!, weight: Float!, location: String!, 
       location_en: String!, image: String!
     ): MutationStatus!
-    addSilverSword(
+
+    addSword(
       input: AddSwordVariables!
+      sword: String!
     ): MutationStatus!
   }
 `;
@@ -88,24 +92,7 @@ export const resolvers = {
       return db.query(`select * from components${args.lang === 'en' ? '_en' : ''}`).then(res => res)
     },
     allSilverSwords: async (parent, args) => {
-      return await db
-        .query(`select * from silver_swords${args.lang === 'en' ? '_en' : ''}`)
-        .then(res => {
-          return res.map( async (silverSword) => {
-            let newComponents = silverSword.components.map(async (item) => {
-              item.component = await db
-                .query(`select * from components${args.lang === 'en' ? '_en' : ''} where id=$1`, [item.component])
-                .then(component => component[0], (err) => console.log(err))
-              return item
-            })
-            silverSword.components = newComponents;
-            return silverSword;
-          })
-        })
-        .catch(err => {
-          console.log(err);
-          return {status: false, message: 'Проблема с получением данных...'}
-        })
+      return allSilverSwords(args).then(res => res)
     }
   },
   
@@ -113,8 +100,8 @@ export const resolvers = {
     addComponent: (parent, args) => {
       return addComponentData(args).then(res => res)
     },
-    addSilverSword: (parent, {input}) => {
-      return addSilverSword(input).then(res => res)
-    }
+    addSword: (parent, {input, sword}) => {
+      return addSword(input, sword).then(res => res)
+    },
   }
 };

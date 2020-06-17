@@ -1,12 +1,10 @@
 import React, {useState} from 'react';
-import './AddNewSilverSword.scss';
 import {Button, Form} from 'semantic-ui-react';
 
 import Input from '../Input/Input';
 import {MultiplyInputs} from '../MultiplyInputs/index';
 
 import {addSwordMutation} from '../../../queries/queries';
-import {getSilverSwordsQuery} from '../../../queries/queries';
 import { useMutation } from 'react-apollo';
 import {createPhotoName, sendPhoto} from '../../../modulesUtilits';
 
@@ -17,7 +15,7 @@ const allInputs = [
   'location', 'location_en', 'image'  
 ]
 
-export default function AddNewSilverSword({ language }) {
+export default function AddNewMetalSword({ language }) {
   const [components, setComponents] = useState([]); 
   const [postData, setPostData] = useState({
     name: '', 
@@ -44,14 +42,14 @@ export default function AddNewSilverSword({ language }) {
     e.preventDefault();
     postData.components = components;
     addSword({
-      variables: {input: {...postData, image: `/images/silver_swords/${createPhotoName(postData.name_en)}`}, sword: 'silver'}, 
-      refetchQueries: [{ query: getSilverSwordsQuery, variables: {lang: language} }]
+      variables: {input: {...postData, image: `/images/metal_swords/${createPhotoName(postData.name_en)}`}, sword: 'metal'}, 
+      // refetchQueries: [{ query: getSilverSwordsQuery, variables: {lang: language} }]
     })
       .then(({data}) => {
         const {status, message} = data.addSword;
         const {image, name_en} = postData; 
         if (status) {
-          sendPhoto(image, createPhotoName(name_en), 'silver_swords')
+          sendPhoto(image, createPhotoName(name_en), 'metal_swords')
             .then(res => setMessage({status, message}), (err) => setMessage({status: false, message: `${message}, но возникли проблемы с добавлением фото`}))
           let newPostData = {...postData}; 
           for(let key in newPostData) {

@@ -1,4 +1,4 @@
-import db from './index';
+import db from '../index';
 
 export const addComponentData = async (data) => {
   const {name, name_en, purchase, sale, weight, location, location_en, image} = data;

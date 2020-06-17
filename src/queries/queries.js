@@ -60,13 +60,12 @@ export const addComponentMutation = gql`
   }
 `;
 
-export const addSilverSwordMutation = gql`
-
-  mutation addSilverSwordMutation(
-    $input: AddSwordVariables!
+export const addSwordMutation = gql`
+  mutation addSwordMutation(
+    $input: AddSwordVariables!, $sword: String!
   ) {
-    addSilverSword(
-      input: $input
+    addSword(
+      input: $input, sword: $sword
     ) { 
       status
       message

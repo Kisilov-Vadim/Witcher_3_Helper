@@ -20,6 +20,7 @@ export default function AllSilverSwords({language}) {
     return(<div>Sorry, error...</div>)
   } else {
     const {allSilverSwords} = data; 
+    console.log(allSilverSwords)
     return (
       <div className="components-table wrapper">
         <Table>
@@ -29,6 +30,7 @@ export default function AllSilverSwords({language}) {
               <Table.HeaderCell>{language === 'en' ? 'Purchase' : 'Стоимость покупки'}</Table.HeaderCell>
               <Table.HeaderCell>{language === 'en' ? 'Sale' : 'Стоимость продажт'}</Table.HeaderCell>
               <Table.HeaderCell>{language === 'en' ? 'Weight' : 'Вес'}</Table.HeaderCell>
+              <Table.HeaderCell>{language === 'en' ? 'Components' : 'Компоненты'}</Table.HeaderCell>
               <Table.HeaderCell>{language === 'en' ? 'Location' : 'Где найти'}</Table.HeaderCell>
               <Table.HeaderCell>{language === 'en' ? 'Image' : 'Фото'}</Table.HeaderCell>
             </Table.Row>
@@ -42,8 +44,32 @@ export default function AllSilverSwords({language}) {
                     <Table.Cell>{silverSword.purchase}</Table.Cell>
                     <Table.Cell>{silverSword.sale}</Table.Cell>
                     <Table.Cell>{silverSword.weight}</Table.Cell>
+                    {
+                      silverSword.components.length > 0 ?
+                        <Table.Cell>
+                          <table>
+                            <thead>
+                              <tr>
+                                <th>Name</th>
+                                <th>Quantity</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {
+                                silverSword.components.map(({component, quantity}) => (
+                                  <tr>
+                                    <td>{component.name}</td>
+                                    <td>{quantity}</td>
+                                  </tr>
+                                ))
+                              }
+                            </tbody>
+                          </table>
+                        </Table.Cell>
+                      : <Table.Cell></Table.Cell>
+                    }
                     <Table.Cell>{silverSword.location}</Table.Cell>
-                    <Table.Cell><img src={silverSword.image} alt={silverSword.name}/></Table.Cell>
+                    <Table.Cell><img className='image-big' src={silverSword.image} alt={silverSword.name}/></Table.Cell>
                   </Table.Row>
                 )
               })

@@ -7,6 +7,7 @@ export default function Admin() {
     <div className="wrapper admin">
       <Link to="/admin/add-new-component">Добавить новый компонент</Link>
       <Link to="/admin/add-new-silver-sword">Добавить серебряный меч</Link>
+      <Link to="/admin/add-new-metal-sword">Добавить металический меч</Link>
     </div>
   )
 }

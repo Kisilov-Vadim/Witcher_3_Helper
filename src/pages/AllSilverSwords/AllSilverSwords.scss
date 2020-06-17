@@ -4,6 +4,12 @@ table {
     
     th, td {
       font-family: DMMono, sans-serif;
+
+      .image-big {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+      }
     }
   }
 }

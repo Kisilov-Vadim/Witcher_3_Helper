@@ -9,6 +9,7 @@ import {ApolloProvider} from 'react-apollo';
 //import Components
 import {AddNewComponent} from './components/Admin/AddNewComponent/index'; 
 import {AddNewSilverSword} from './components/Admin/AddNewSilverSword/index';
+import {AddNewMetalSword} from './components/Admin/AddNewMetalSword/index';
 import {Main} from './pages/Main/index';
 import {AllComponents} from './pages/AllComponents/index';
 import {AllSilverSwords} from './pages/AllSilverSwords/index';
@@ -39,6 +40,9 @@ function App() {
         </Route>
         <Route exact={true} path="/admin/add-new-silver-sword">
           <AddNewSilverSword />
+        </Route>
+        <Route exact={true} path="/admin/add-new-metal-sword">
+          <AddNewMetalSword />
         </Route>
         <Route exact={true} path="/admin">
           <Admin />
