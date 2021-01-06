@@ -13,7 +13,7 @@
     "apollo-boost": "^0.4.9",
     "apollo-server": "^2.13.0",
     "apollo-upload-client": "^13.0.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "consolidate": "^0.15.1",
     "cors": "^2.8.5",
